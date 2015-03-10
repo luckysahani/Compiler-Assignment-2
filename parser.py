@@ -20,10 +20,12 @@ def p_Identifier(p):
     'Identifier : IDENTIFIER'
 
 def p_QualifiedIdentifier(p):
-    '''QualifiedIdentifier : Identifier | Identifier '.' QualifiedIdentifier'''
+    '''QualifiedIdentifier : Identifier 
+    						| Identifier '.' QualifiedIdentifier'''
 
 def p_QualifiedIdentifierList(p): 
-    ''' QualifiedIdentifierList : QualifiedIdentifier | QualifiedIdentifier ',' QualifiedIdentifierList  '''
+    ''' QualifiedIdentifierList : QualifiedIdentifier 
+    							| QualifiedIdentifier ',' QualifiedIdentifierList  '''
 
 # def p_QualifiedIdentifier(p):
 #     '''QualifiedIdentifier : Identifier '{' '.' Identifier '}' '''
@@ -73,49 +75,61 @@ def p_CompilationUnit(p):
 						| Curly_ImportDeclaration Curly_TypeDeclaration '''
 
 def p_Square_Annotations(p):
-	''' Square_Annotations : Annotations |  '''
+	''' Square_Annotations : Annotations 
+							|  '''
 
 def p_Curly_ImportDeclaration(p):
-	'''  Curly_ImportDeclaration : ImportDeclaration Curly_ImportDeclaration |  '''
+	'''  Curly_ImportDeclaration : ImportDeclaration Curly_ImportDeclaration 
+								|  '''
 
 def p_Curly_TypeDeclaration(p):
-	'''  Curly_TypeDeclaration : TypeDeclaration Curly_TypeDeclaration | '''
+	'''  Curly_TypeDeclaration : TypeDeclaration Curly_TypeDeclaration 
+								| '''
 
 def p_ImportDeclaration(p): 
 	''' ImportDeclaration : IMPORT Square_static Identifier Curly_dot_Identifier Square_dot_asterisk '''
 
 def p_Square_static(p):
-	''' Square_static : STATIC |  ''' 
+	''' Square_static : STATIC 
+						|  ''' 
 
 def p_Curly_dot_Identifier(p):
-	''' Curly_dot_Identifier : '.' Identifier Curly_dot_Identifier |  '''
+	''' Curly_dot_Identifier : '.' Identifier Curly_dot_Identifier 
+							|  '''
 
 def p_Square_dot_asterisk(p):
-	''' Square_dot_asterisk : '.' '*' | ''' 
+	''' Square_dot_asterisk : '.' '*' 
+							| ''' 
 
 def p_TypeDeclaration(p):
 	''' TypeDeclaration : ClassOrInterfaceDeclaration ';' '''
 
 def p_ClassOrInterfaceDeclaration(p):
-	' ClassOrInterfaceDeclaration : Curly_Modifier ClassDeclaration | Curly_Modifier InterfaceDeclaration' 
+	''' ClassOrInterfaceDeclaration : Curly_Modifier ClassDeclaration 
+									| Curly_Modifier InterfaceDeclaration'''
 
 def p_Curly_Modifier(p):
-	' Curly_Modifier : Modifier Curly_Modifier | '
+	''' Curly_Modifier : Modifier Curly_Modifier 
+						| '''
 
 def p_ClassDeclaration(p):
-	' ClassDeclaration : NormalClassDeclaration | EnumDeclaration' 
+	''' ClassDeclaration : NormalClassDeclaration 
+							| EnumDeclaration'''
 
 def p_InterfaceDeclaration(p):
-	' InterfaceDeclaration : NormalInterfaceDeclaration | AnnotationTypeDeclaration'
+	''' InterfaceDeclaration : NormalInterfaceDeclaration 
+								| AnnotationTypeDeclaration'''
 
 def p_NormalClassDeclaration(p):
 	''' NormalClassDeclaration : CLASS Identifier Square_TypeParameters Square_extends_Type Square_implements_TypeList ClassBody '''
 
 def p_Square_TypeParameters(p):
-	' Square_TypeParameters : TypeParameters |  '
+	''' Square_TypeParameters : TypeParameters 
+								|  '''
 
 def p_Square_extends_Type(p):
-	' Square_extends_Type : EXTENDS Type |  '
+	''' Square_extends_Type : EXTENDS Type 
+						|  '''
 
 def p_Square_implements_TypeList(p):
 	' Square_implements_TypeList : IMPLEMENTS TypeList  ' 
@@ -124,7 +138,8 @@ def p_EnumDeclaration(p):
 	'EnumDeclaration : ENUM Identifier Square_implements_TypeList EnumBody'
 
 def p_Square_extends_TypeList(p):
-	'Square_extends_TypeList : EXTENDS TypeList | '
+	'''Square_extends_TypeList : EXTENDS TypeList 
+								| '''
 
 def p_NormalInterfaceDeclaration(p):
 	'NormalInterfaceDeclaration : INTERFACE Identifier Square_TypeParameters Square_extends_TypeList InterfaceBody' 
@@ -158,31 +173,45 @@ def p_AnnotationTypeDeclaration(p):
 #     ? [ (extends | super) ReferenceType ]
 
 def p_Type(p):
-	''' Type : BasicType Curly_Square_Brackets | ReferenceType Curly_Square_Brackets  '''
+	''' Type : BasicType Curly_Square_Brackets 
+				| ReferenceType Curly_Square_Brackets  '''
 
 def p_Curly_Square_Brackets(p):
-	''' Curly_Square_Brackets : '[' ']' Curly_Square_Brackets |   '''
+	''' Curly_Square_Brackets : '[' ']' Curly_Square_Brackets 
+								|   '''
 
 def p_BasicType(p):
-	''' BasicType : BYTE | SHORT | CHAR | INT | LONG | FLOAT | DOUBLE | BOOLEAN''' 
+	''' BasicType : BYTE 
+				| SHORT 
+				| CHAR 
+				| INT 
+				| LONG 
+				| FLOAT 
+				| DOUBLE 
+				| BOOLEAN''' 
 
 def p_ReferenceType(p):
 	''' ReferenceType : Identifier Square_TypeArguments Curly_dot_Identifier_Square_TypeArguments  '''
 
 def p_Square_TypeArguments(p):
-	'''  Square_TypeArguments : TypeArguments |  '''
+	'''  Square_TypeArguments : TypeArguments 
+								|  '''
 
 def p_Curly_dot_Identifier_Square_TypeArguments(p):
-	''' Curly_dot_Identifier_Square_TypeArguments : '.' Identifier Square_TypeArguments Curly_dot_Identifier_Square_TypeArguments |  '''
+	''' Curly_dot_Identifier_Square_TypeArguments : '.' Identifier Square_TypeArguments Curly_dot_Identifier_Square_TypeArguments 
+												|  '''
 
 def p_TypeArguments(p):
 	''' TypeArguments : '<' TypeArgument Curly_comma_typeargument '>'  ''' 
 
 def p_Curly_comma_typeargument(p):
-	''' Curly_comma_typeargument : ',' TypeArgument Curly_comma_typeargument | '''
+	''' Curly_comma_typeargument : ',' TypeArgument Curly_comma_typeargument 
+								| '''
 
 def p_TypeArgument(p):
-	''' TypeArgument : ReferenceType '?' | ReferenceType '?' EXTENDS ReferenceType | ReferenceType '?' SUPER ReferenceType '''  
+	''' TypeArgument : ReferenceType '?' 
+						| ReferenceType '?' EXTENDS ReferenceType 
+						| ReferenceType '?' SUPER ReferenceType '''  
 
 
 #----------------------------------------------------------------------------------------
@@ -222,10 +251,10 @@ def p_NonWildcardTypeArgumentsOrDiamond(p):
 	''' NonWildcardTypeArgumentsOrDiamond :  '<' '>' | NonWildcardTypeArguments '''
 
 def p_TypeParameters(p):
-	''' '<' TypeParameter Curly_comma_TypeParameter '>' '''
+	''' TypeParameters : '<' TypeParameter Curly_comma_TypeParameter '>' '''
 
 def p_Curly_comma_TypeParameter(p):
-	''' Curly_comma_TypeParameter : ',' TypeParameter Curly_comma_TypeParameter |  '''
+	'''Curly_comma_TypeParameter : ',' TypeParameter Curly_comma_TypeParameter |  '''
 
 def p_TypeParameter(p):
 	''' TypeParameter : Identifier Square_extends_Bound '''
@@ -283,8 +312,19 @@ def p_Curly_And_Reference_Type(p):
 #     ElementValue { , ElementValue }
 
 def p_Modifier(p):
-	'''Modifier : Annotation | PUBLIC | PROTECTED | PROTECTED | PRIVATE | STATIC 
-				|ABSTRACT | FINAL | NATIVE | SYNCHRONIZED | TRANSIENT | VOLATILE | STRICTFP'''
+	'''Modifier : Annotation 
+				| PUBLIC 
+				| PROTECTED 
+				| PROTECTED 
+				| PRIVATE 
+				| STATIC 
+				| ABSTRACT 
+				| FINAL 
+				| NATIVE 
+				| SYNCHRONIZED 
+				| TRANSIENT 
+				| VOLATILE 
+				| STRICTFP'''
 
 def p_Annotations(p):
 	'Annotations : Annotation | Annotation Annotations'
@@ -945,7 +985,7 @@ def p_Square_EnumBodyDeclarations(p):
 	''' Square_EnumBodyDeclarations : EnumBodyDeclarations |  '''
 
 def p_EnumConstants(p):
-	''' EnumConstants :EnumConstant | EnumConstants ',' EnumConstant '''
+	'''EnumConstants : EnumConstant | EnumConstants ',' EnumConstant '''
 
 def p_EnumConstant(p):
 	''' EnumConstant : Square_Annotations Identifier Square_Arguments Square_ClassBody   '''
