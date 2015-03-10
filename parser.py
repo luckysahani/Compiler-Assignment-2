@@ -452,12 +452,8 @@ def p_ElementValues(p):
 #     VariableDeclaratorId [, FormalParameterDecls]
 #     ... VariableDeclaratorId
 
-
-
 # VariableDeclaratorId:
 #     Identifier {[]}
-
-
 
 # VariableDeclarators:
 #     VariableDeclarator { , VariableDeclarator }
@@ -878,22 +874,33 @@ def p_ElementValues(p):
 # AnnotationMethodRest:
 #     ( ) [[]] [default ElementValue]
 
+def p_AnnotationTypeBody(p):
+	''' AnnotationTypeBody : '{' AnnotationTypeElementDeclarations '}' | '{' '}' '''
 
+def p_AnnotationTypeElementDeclarations(p):
+	' AnnotationTypeElementDeclarations : AnnotationTypeElementDeclaration | AnnotationTypeElementDeclarations AnnotationTypeElementDeclaration '
 
+def p_AnnotationTypeElementDeclaration(p) :
+	'AnnotationTypeElementDeclaration : Curly_Modifier AnnotationTypeElementRest'
 
+def p_AnnotationTypeElementRest(p):
+	'''AnnotationTypeElementRest : Type Identifier AnnotationMethodOrConstantRest
+									| ClassDeclaration
+									| InterfaceDeclaration
+									| EnumDeclaration
+									| AnnotationTypeDeclaration '''
 
+def p_AnnotationMethodOrConstantRest(p):
+	''' AnnotationMethodOrConstantRest : AnnotationMethodRest | ConstantDeclaratorsRest '''
 
+def p_AnnotationMethodRest(p):
+	''' AnnotationMethodRest : '(' ')' '[' ']' Square_default_ElementValue | '(' ')' Square_default_ElementValue   '''
 
+def p_Square_default_ElementValue(p):
+	''' Square_default_ElementValue : DEFAULT ElementValue |   '''
 
-
-
-
-
-
-
-
-
-
+#---------------------------------------------------------------------------------------------------------
+#Parser
 parser = yacc.yacc()
 
 while True:
