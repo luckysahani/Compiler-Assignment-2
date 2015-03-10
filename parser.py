@@ -622,6 +622,252 @@ def p_TypeArgument(p):
 
 
 
+# ----------------------------------------------------------------------------------------
+# Expression: 
+#     Expression1 [AssignmentOperator Expression1]
+
+# AssignmentOperator: 
+#     = 
+#     +=
+#     -= 
+#     *=
+#     /=
+#     &=
+#     |=
+#     ^=
+#     %=
+#     <<=
+#     >>=
+#     >>>=
+
+# Expression1: 
+#     Expression2 [Expression1Rest]
+
+# Expression1Rest: 
+#     ? Expression : Expression1
+
+# Expression2:
+#     Expression3 [Expression2Rest]
+
+# Expression2Rest:
+#     { InfixOp Expression3 }
+#     instanceof Type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------------------------------------------------------------------
+# InfixOp: 
+#     || 
+#     &&
+#     |
+#     ^
+#     &
+#     ==
+#     !=
+#     <
+#     >
+#     <=
+#     >=
+#     <<
+#     >>
+#     >>>
+#     +
+#     -
+#     *
+#     /
+#     %
+
+# Expression3: 
+#     PrefixOp Expression3
+#     ( (Expression | Type) ) Expression3
+#     Primary { Selector } { PostfixOp }
+
+# PrefixOp: 
+#     ++
+#     --
+#     !
+#     ~
+#     +
+#     -
+
+# PostfixOp: 
+#     ++
+#     --
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -----------------------------------------------------------------------------------------
+# Primary: 
+#     Literal
+#     ParExpression
+#     this [Arguments]
+#     super SuperSuffix
+#     new Creator
+#     NonWildcardTypeArguments (ExplicitGenericInvocationSuffix | this Arguments)
+#     Identifier { . Identifier } [IdentifierSuffix]
+#     BasicType {[]} . class
+#     void . class
+
+
+
+# Literal:
+#     IntegerLiteral
+#     FloatingPointLiteral
+#     CharacterLiteral 	
+#     StringLiteral 	
+#     BooleanLiteral
+#     NullLiteral
+
+# ParExpression: 
+#     ( Expression )
+
+# Arguments:
+#     ( [ Expression { , Expression } ] )
+
+# SuperSuffix: 
+#     Arguments 
+#     . Identifier [Arguments]
+
+# ExplicitGenericInvocationSuffix: 
+#     super SuperSuffix
+#     Identifier Arguments
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------
+# Creator:  
+#     NonWildcardTypeArguments CreatedName ClassCreatorRest
+#     CreatedName (ClassCreatorRest | ArrayCreatorRest)
+
+# CreatedName:   
+#     Identifier [TypeArgumentsOrDiamond] { . Identifier [TypeArgumentsOrDiamond] }
+
+# ClassCreatorRest: 
+#     Arguments [ClassBody]
+
+# ArrayCreatorRest:
+#     [ (] {[]} ArrayInitializer  |  Expression ] {[ Expression ]} {[]})
+
+
+
+# IdentifierSuffix:
+#     [ ({[]} . class | Expression) ]
+#     Arguments 
+#     . (class | ExplicitGenericInvocation | this | super Arguments |
+#                                 new [NonWildcardTypeArguments] InnerCreator)
+
+# ExplicitGenericInvocation:
+#     NonWildcardTypeArguments ExplicitGenericInvocationSuffix
+
+# InnerCreator:  
+#     Identifier [NonWildcardTypeArgumentsOrDiamond] ClassCreatorRest
+
+
+
+# Selector:
+#     . Identifier [Arguments]
+#     . ExplicitGenericInvocation
+#     . this
+#     . super SuperSuffix
+#     . new [NonWildcardTypeArguments] InnerCreator
+#     [ Expression ]
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------------------------
+# EnumBody:
+#     { [EnumConstants] [,] [EnumBodyDeclarations] }
+
+# EnumConstants:
+#     EnumConstant
+#     EnumConstants , EnumConstant
+
+# EnumConstant:
+#     [Annotations] Identifier [Arguments] [ClassBody]
+
+# EnumBodyDeclarations:
+#     ; {ClassBodyDeclaration}
+
+
+
+# AnnotationTypeBody:
+#     { [AnnotationTypeElementDeclarations] }
+
+# AnnotationTypeElementDeclarations:
+#     AnnotationTypeElementDeclaration
+#     AnnotationTypeElementDeclarations AnnotationTypeElementDeclaration
+
+# AnnotationTypeElementDeclaration:
+#     {Modifier} AnnotationTypeElementRest
+
+# AnnotationTypeElementRest:
+#     Type Identifier AnnotationMethodOrConstantRest ;
+#     ClassDeclaration
+#     InterfaceDeclaration
+#     EnumDeclaration  
+#     AnnotationTypeDeclaration
+
+# AnnotationMethodOrConstantRest:
+#     AnnotationMethodRest
+#     ConstantDeclaratorsRest  
+
+# AnnotationMethodRest:
+#     ( ) [[]] [default ElementValue]
+
+
+
+
+
+
 
 
 
