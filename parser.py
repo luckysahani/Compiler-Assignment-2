@@ -641,8 +641,6 @@ def p_Resource(p):
 # EnumConstantName:
 #     Identifier
 
-
-
 # ForControl:
 #     ForVarControl
 #     ForInit ; [Expression] ; [ForUpdate]
@@ -801,8 +799,6 @@ def p_Resource(p):
 #     BasicType {[]} . class
 #     void . class
 
-
-
 # Literal:
 #     IntegerLiteral
 #     FloatingPointLiteral
@@ -825,12 +821,38 @@ def p_Resource(p):
 #     super SuperSuffix
 #     Identifier Arguments
 
+def p_Primary(p):
+	''' Primary : Literal 
+				| ParExpression
+				| THIS Arguments
+				| THIS
+				| SUPER SuperSuffix
+				| NEW Creator
+				| NonWildcardTypeArguments ExplicitGenericInvocationSuffix
+				| NonWildcardTypeArguments THIS Arguments
+				| Identifier Curly_dot_Identifier Square_IdentifierSuffix
+				| BasicType Curly_Square_Brackets '.' CLASS
+				| VOID '.' CLASS '''
 
+def p_Square_IdentifierSuffix(p):
+	'Square_IdentifierSuffix : IdentifierSuffix | '
 
+def p_Literal(p):
+	'Literal : IntegerLiteral | FloatingPointLiteral | CharacterLiteral | StringLiteral | BooleanLiteral | NullLiteral'
 
+def p_ParExpression(p):
+	''' ParExpression : '(' Expression ')' '''
 
+def p_Arguments(p):
+	''' Arguments : '(' ')'| '(' Expression Curly_comma_expression ')' '''
 
+def p_Curly_comma_expression(p):
+	''' Curly_comma_expression : ',' Expression Curly_comma_expression |  '''
 
+def p_SuperSuffix(p):
+	''' SuperSuffix : Arguments | '.' Identifier Square_Arguments '''
+def p_ExplicitGenericInvocationSuffix(p):
+	''' ExplicitGenericInvocationSuffix : SUPER SuperSuffix | Identifier Arguments '''
 
 # ---------------------------------------------------------------------------------------------
 # Creator:  
