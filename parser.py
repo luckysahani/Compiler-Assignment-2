@@ -305,19 +305,13 @@ def p_ElementValue(p):
 	'ElementValue : Annotation | Expression1 | ElementValueArrayInitializer'
 
 def p_ElemetValueArrayInitializer(p):
-ElementValueArrayInitializer:
-    { [ElementValues] [,] }
+	'ElementValueArrayInitializer : Square_ElementValues_And_comma ElementValueArrayInitializer |  '
 
-ElementValues:
-    ElementValue { , ElementValue }
+def p_Square_ElementValues_And_comma(p):
+	'''Square_ElementValues_And_comma : ElementValues | ElementValues ',' | ',' | '''
 
-
-
-
-
-
-
-
+def p_ElementValues(p):
+	'''ElementValues : ElementValue | ElementValue ',' ElementValues '''
 
 # -----------------------------------------------------------------------------------------------------
 # ClassBody: 
