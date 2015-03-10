@@ -25,6 +25,12 @@ def p_QualifiedIdentifier(p):
 def p_QualifiedIdentifierList(p): 
     ''' QualifiedIdentifierList : QualifiedIdentifier | QualifiedIdentifier ',' QualifiedIdentifierList  '''
 
+# def p_QualifiedIdentifier(p):
+#     '''QualifiedIdentifier : Identifier '{' '.' Identifier '}' '''
+
+# def p_QualifiedIdentifierList(p): 
+#     ''' QualifiedIdentifierList : QualifiedIdentifier '{' ',' QualifiedIdentifierList '}'  '''
+
 #------------------------------------------------------------------------------------------------------
 #CompilationUnit: 
 #     [[Annotations] package QualifiedIdentifier ;]
@@ -194,8 +200,6 @@ def p_TypeArgument(p):
 #     < >
 #     NonWildcardTypeArguments
 
-
-
 # TypeParameters:
 #     < TypeParameter { , TypeParameter } >
 
@@ -217,54 +221,23 @@ def p_TypeArgumentsOrDiamond(p):
 def p_NonWildcardTypeArgumentsOrDiamond(p):
 	''' NonWildcardTypeArgumentsOrDiamond :  '<' '>' | NonWildcardTypeArguments '''
 
+def p_TypeParameters(p):
+	''' '<' TypeParameter Curly_comma_TypeParameter '>' '''
 
+def p_Curly_comma_TypeParameter(p):
+	''' Curly_comma_TypeParameter : ',' TypeParameter Curly_comma_TypeParameter |  '''
 
-TypeParameters:
-    < TypeParameter { , TypeParameter } >
+def p_TypeParameter(p):
+	''' TypeParameter : Identifier Square_extends_Bound '''
 
-TypeParameter:
-    Identifier [extends Bound]
+def p_Square_extends_Bound(p):
+	' Square_extends_Bound : EXTENDS Bound |  '
 
-Bound:  
-    ReferenceType { & ReferenceType }
+def p_Bound(p):
+	' Bound : ReferenceType Curly_And_Reference_Type'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def p_Curly_And_Reference_Type(p):
+	''' Curly_And_Reference_Type : '&' ReferenceType Curly_And_Reference_Type |  '''  
 
 
 #-------------------------------------------------------------------------------------------------
@@ -309,6 +282,48 @@ Bound:
 # ElementValues:
 #     ElementValue { , ElementValue }
 
+def p_Modifier(p):
+
+Modifier: 
+    Annotation
+    public
+    protected
+    private
+    static 
+    abstract
+    final
+    native
+    synchronized
+    transient
+    volatile
+    strictfp
+
+Annotations:
+    Annotation {Annotation}
+
+Annotation:
+    @ QualifiedIdentifier [ ( [AnnotationElement] ) ]
+
+AnnotationElement:
+    ElementValuePairs
+    ElementValue
+
+ElementValuePairs:
+    ElementValuePair { , ElementValuePair }
+
+ElementValuePair:
+    Identifier = ElementValue
+    
+ElementValue:
+    Annotation
+    Expression1 
+    ElementValueArrayInitializer
+
+ElementValueArrayInitializer:
+    { [ElementValues] [,] }
+
+ElementValues:
+    ElementValue { , ElementValue }
 
 
 
