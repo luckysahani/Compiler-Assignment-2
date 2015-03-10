@@ -186,8 +186,6 @@ def p_TypeArgument(p):
 # TypeList:  
 #     ReferenceType { , ReferenceType }
 
-
-
 # TypeArgumentsOrDiamond:
 #     < > 
 #     TypeArguments
@@ -207,6 +205,28 @@ def p_TypeArgument(p):
 # Bound:  
 #     ReferenceType { & ReferenceType }
 
+def p_NonWildcardTypeArguments(p):
+	''' NonWildcardTypeArguments : '<' TypeList '>'  '''
+
+def p_TypeList(p):
+	'''  TypeList : ReferenceType | ReferenceType ',' TypeList '''  
+
+def p_TypeArgumentsOrDiamond(p):
+	'''  TypeArgumentsOrDiamond : '<' '>' | TypeArguments '''
+
+def p_NonWildcardTypeArgumentsOrDiamond(p):
+	''' NonWildcardTypeArgumentsOrDiamond :  '<' '>' | NonWildcardTypeArguments '''
+
+
+
+TypeParameters:
+    < TypeParameter { , TypeParameter } >
+
+TypeParameter:
+    Identifier [extends Bound]
+
+Bound:  
+    ReferenceType { & ReferenceType }
 
 
 
