@@ -4,40 +4,97 @@ import ply.yacc as yacc
 
 from lexer import tokens
 
+
+
+# ----------------------------------------------------------------------------------------------------
+# Identifier:
+#     IDENTIFIER
+
+# QualifiedIdentifier:
+#     Identifier { . Identifier }
+
+# QualifiedIdentifierList: 
+#     QualifiedIdentifier { , QualifiedIdentifier }
+
 def p_Identifier(p):
     'Identifier : IDENTIFIER'
 
 def p_QualifiedIdentifier(p):
-    '''QualifiedIdentifier : Identifier | Identifier . QualifiedIdentifier'''
+    '''QualifiedIdentifier : Identifier | Identifier DOT QualifiedIdentifier'''
 
 def p_QualifiedIdentifierList(p): 
-    ''' QualifiedIdentifierList : QualifiedIdentifier | QualifiedIdentifier , QualifiedIdentifierList  '''
+    ''' QualifiedIdentifierList : QualifiedIdentifier | QualifiedIdentifier COMMA QualifiedIdentifierList  '''
 
+#------------------------------------------------------------------------------------------------------
+#CompilationUnit: 
+#     [[Annotations] package QualifiedIdentifier ;]
+#                                 {ImportDeclaration} {TypeDeclaration}
+
+# ImportDeclaration: 
+#     import [static] Identifier { . Identifier } [. *] ;
+
+# TypeDeclaration: 
+#     ClassOrInterfaceDeclaration
+#     ;
+
+# ClassOrInterfaceDeclaration: 
+#     {Modifier} (ClassDeclaration | InterfaceDeclaration)
+
+# ClassDeclaration: 
+#     NormalClassDeclaration
+#     EnumDeclaration
+
+# InterfaceDeclaration: 
+#     NormalInterfaceDeclaration
+#     AnnotationTypeDeclaration
+
+
+
+# NormalClassDeclaration: 
+#     class Identifier [TypeParameters]
+#                                 [extends Type] [implements TypeList] ClassBody
+
+# EnumDeclaration:
+#     enum Identifier [implements TypeList] EnumBody
+
+# NormalInterfaceDeclaration: 
+#     interface Identifier [TypeParameters] [extends TypeList] InterfaceBody
+
+# AnnotationTypeDeclaration:
+#     @ interface Identifier AnnotationTypeBody
 def p_CompilationUnit(p): 
-	''' CompilationUnit : Sq '''
+	''' CompilationUnit : Square_Annotations package QualifiedIdentifier SEMICOLON Curly_ImportDeclaration Curly_TypeDeclaration
+						| Curly_ImportDeclaration Curly_TypeDeclaration '''
 
 def p_Square_Annotations(p):
 	''' Square_Annotations : Annotations |  '''
 
 def p_Curly_ImportDeclaration(p):
-	'''  Curly_ImportDeclaration : ImportDeclaration | ImportDeclaration Curly_ImportDeclaration '''
+	'''  Curly_ImportDeclaration : ImportDeclaration Curly_ImportDeclaration |  '''
 
 def p_Curly_TypeDeclaration(p):
-	'''  Curly_TypeDeclaration : TypeDeclaration | TypeDeclaration Curly_TypeDeclaration '''
+	'''  Curly_TypeDeclaration : TypeDeclaration Curly_TypeDeclaration | '''
 
+def p_ImportDeclaration(p): 
+	''' ImportDeclaration : import Square_static Identifier Curly_dot_Identifier Square_dot_asterisk '''
 
+def p_Square_static(p):
+	''' Square_static : static |  ''' 
 
-    [[Annotations] package QualifiedIdentifier ;]
-                                {ImportDeclaration} {TypeDeclaration}
+def p_Curly_dot_Identifier(p):
+	''' Curly_dot_Identifier : DOT Identifier Curly_dot_Identifier |  '''
 
-ImportDeclaration: 
-    import [static] Identifier { . Identifier } [. *] ;
+def p_Square_dot_asterisk(p):
+	''' Square_dot_asterisk : DOT ASTERISK | ''' 
 
-TypeDeclaration: 
-    ClassOrInterfaceDeclaration
-    ;
+def p_TypeDeclaration(p):
+	' TypeDeclaration : ClassOrInterfaceDeclaration SEMICOLON'
 
-ClassOrInterfaceDeclaration: 
+def p_ClassOrInterfaceDeclaration(p):
+	' ClassOrInterfaceDeclaration : Curly_Modifier ClassDeclaration | Curly_Modifier InterfaceDeclaration' 
+
+def p_Curly_Modifier(p):
+	' Curly_Modifier : Modifier Curly_Modifier | '
     {Modifier} (ClassDeclaration | InterfaceDeclaration)
 
 ClassDeclaration: 
