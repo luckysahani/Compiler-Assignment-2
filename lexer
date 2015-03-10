@@ -213,14 +213,14 @@ lexer = lex.lex()
 
 # Tokenize
 #lexer.input((open('sample.java','r')).read())
-lexer.input((open(sys.argv[1],'r')).read())
+# lexer.input((open(sys.argv[1],'r')).read())
 
-while True:
-    tok = lexer.token()
-    if not tok: break      
-   # print tok
-    code_str += tok.value
-    if(tok.type != "WHITESPACE"):
-        token_str += tok.type + " "
+# while True:
+#     tok = lexer.token()
+#     if not tok: break      
+#    # print tok
+#     code_str += tok.value
+#     if(tok.type != "WHITESPACE"):
+#         token_str += tok.type + " "
 
 

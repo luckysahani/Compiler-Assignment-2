@@ -521,13 +521,60 @@ def p_ElementValues(p):
 # StatementExpression: 
 #     Expression
 
+def p_Block(p):
+	''' Block : '{' BlockStatements '}' '''
 
+def p_BlockStatements(p):
+	''' BlockStatements : BlockStatement BlockStatements |   '''
 
+def p_BlockStatement(p):
+	''' BlockStatement : LocalVariableDeclarationStatement | ClassOrInterfaceDeclaration | Square_Identifier_colon Statement '''
 
+def p_Square_Identifier_colon(p): 
+	''' Square_Identifier_colon : Identifier ':' |    '''
 
+def p_LocalVariableDeclarationStatement(p):
+	''' LocalVariableDeclarationStatement : Curly_VariableModifier Type VariableDeclarators ';' '''
 
+def p_Square_Identifier(p):
+	' Square_Identifier : Identifier | '
 
+def p_Curly_SwitchBlockStatementGroups(p):
+	' Curly_SwitchBlockStatementGroups : SwitchBlockStatementGroups Curly_SwitchBlockStatementGroups | ' 
 
+def p_Square_Expression(p):
+	' Square_Expression : Expression | '
+
+def p_Square_Catches(p):
+	' Square_Catches : Catches | '
+
+def p_Square_Finally(p):
+	' Square_Finally : Finally | '
+
+def p_Statement(p):
+	''' Statement : Block 
+					| ';'
+					| Identifier ':' Statement
+					| StatementExpression ';'
+					| IF ParExpression Statement ELSE Statement
+					| IF ParExpression Statement
+					| ASSERT Expression : Expression ';'
+					| ASSERT Expression
+					| SWITCH ParExpression Curly_SwitchBlockStatementGroups
+					| WHILE ParExpression Statement
+					| DO Statement WHILE ParExpression ';'
+					| FOR '(' ForControl ')' Statement
+					| BREAK Square_Identifier  ';'
+					| CONTINUE Square_Identifier ';'
+					| RETURN Square_Expression  ';'
+					| THROW Expression ';' 
+					| SYNCHRONIZED ParExpression Block
+					| TRY Block Catches
+					| TRY Block Square_Catches Finally
+					| TRY ResourceSpecification Block Square_Catches Square_Finally '''
+
+def p_StatementExpression(p):
+	''' StatementExpression : Expression '''
 
 
 # ----------------------------------------------------------------------
@@ -552,34 +599,29 @@ def p_ElementValues(p):
 # Resource:
 #     {VariableModifier} ReferenceType VariableDeclaratorId = Expression 
 
+def p_Catches(p):
+	''' Catches : CatchClause | CatchClause Catches'''
 
+def p_CatchClause(p) :
+	''' CatchClause : catch '(' Curly_VariableModifier CatchType Identifier ')' Block   '''
 
+def p_Curly_VariableModifier(p) :
+	''' Curly_VariableModifier : VariableModifier Curly_VariableModifier |   '''
 
+def p_CatchType(p):
+	'''CatchType : QualifiedIdentifier | QualifiedIdentifier '|' CatchType '''
 
+def p_Finally(p):
+	' Finally : FINALLY Block '
 
+def p_ResourceSpecification(p):
+	'''ResourceSpecification : '(' Resources '') | '(' Resources ';' ')' '''
 
+def p_Resources(p):
+	'''Resources : Resource | Resource ';' Resources '''
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def p_Resource(p):
+	''' Resource : Curly_VariableModifier ReferenceType VariableDeclaratorId '=' Expression '''
 
 # ------------------------------------------------------------------------------------
 # SwitchBlockStatementGroups: 
@@ -804,8 +846,6 @@ def p_ElementValues(p):
 # ArrayCreatorRest:
 #     [ (] {[]} ArrayInitializer  |  Expression ] {[ Expression ]} {[]})
 
-
-
 # IdentifierSuffix:
 #     [ ({[]} . class | Expression) ]
 #     Arguments 
@@ -817,8 +857,6 @@ def p_ElementValues(p):
 
 # InnerCreator:  
 #     Identifier [NonWildcardTypeArgumentsOrDiamond] ClassCreatorRest
-
-
 
 # Selector:
 #     . Identifier [Arguments]
@@ -848,8 +886,6 @@ def p_ElementValues(p):
 # EnumBodyDeclarations:
 #     ; {ClassBodyDeclaration}
 
-
-
 # AnnotationTypeBody:
 #     { [AnnotationTypeElementDeclarations] }
 
@@ -873,6 +909,36 @@ def p_ElementValues(p):
 
 # AnnotationMethodRest:
 #     ( ) [[]] [default ElementValue]
+
+def p_EnumBody(p):
+	'EnumBody : Square_EnumConstants Square_comma Square_EnumBodyDeclarations EnumBody | '
+
+def p_Square_EnumConstants(p):
+	'Square_EnumConstants : EnumConstants | '
+
+def p_Square_comma(p):
+	''' Square_comma : ',' | '''
+
+def p_Square_EnumBodyDeclarations(p):
+	''' Square_EnumBodyDeclarations : EnumBodyDeclarations |  '''
+
+def p_EnumConstants(p):
+	''' EnumConstants :EnumConstant | EnumConstants ',' EnumConstant '''
+
+def p_EnumConstant(p):
+	''' EnumConstant : Square_Annotations Identifier Square_Arguments Square_ClassBody   '''
+
+def p_Square_Arguments(p):
+	''' Square_Arguments : Arguments | '''
+
+def p_Square_ClassBody(p):
+	'Square_ClassBody : ClassBody | '
+
+def p_EnumBodyDeclarations(p):
+	''' EnumBodyDeclarations : ';' Curly_ClassBodyDeclaration '''
+
+def p_Curly_ClassBodyDeclaration(p):
+	' Curly_ClassBodyDeclaration : ClassBodyDeclaration Curly_ClassBodyDeclaration | '
 
 def p_AnnotationTypeBody(p):
 	''' AnnotationTypeBody : '{' AnnotationTypeElementDeclarations '}' | '{' '}' '''
