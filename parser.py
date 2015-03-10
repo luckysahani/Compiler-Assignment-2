@@ -23,40 +23,40 @@ class Expression_Parser(object):
 
 
 
-class StatementParser(object):
+class Statement_Parser(object):
 
 
 
 
 
-class NameParser(object):
+class Name_Parser(object):
 
 
 
 
-class LiteralParser(object):
+class Literal_Parser(object):
 
 
 
 
-class TypeParser(object):
+class Type_Parser(object):
 
 
 
 
-class ClassParser(object):
-
-
-
-
-
-class CompilationUnitParser(object):
+class Class_Parser(object):
 
 
 
 
 
-class MyParser(Expression_Parser, StatementParser, NameParser, LiteralParser, TypeParser, ClassParser, CompilationUnitParser):
+class CompilationUnit_Parser(object):
+
+
+
+
+
+class MyParser(Expression_Parser, Statement_Parser, Name_Parser, Literal_Parser, Type_Parser, Class_Parser, CompilationUnit_Parser):
 
     tokens = MyLexer.tokens
 
