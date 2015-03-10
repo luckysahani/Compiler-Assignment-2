@@ -1,1 +1,479 @@
 Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    LSQPAREN
+    FLOAT_CONST
+    COMMENT
+    GOTO
+    STRCITFP
+    THROWS
+    LROUNPAREN
+    RROUNPAREN
+    LCURPAREN
+    LITERAL
+    OPERATOR
+    RCURPAREN
+    RSQPAREN
+    INSTANCEOF
+    WHITESPACE
+    DOT
+    CASE
+    INT_CONST
+    CATCH
+    CONST
+    KEYWORD
+    CHAR_CONST
+    NULL
+    COMMA
+    STRING
+    BOOLEAN_CONST
+    SEPERATOR
+
+Grammar
+
+Rule 0     S' -> Identifier
+Rule 1     Identifier -> IDENTIFIER
+Rule 2     QualifiedIdentifier -> Identifier
+Rule 3     QualifiedIdentifier -> Identifier . QualifiedIdentifier
+Rule 4     QualifiedIdentifierList -> QualifiedIdentifier
+Rule 5     QualifiedIdentifierList -> QualifiedIdentifier , QualifiedIdentifierList
+Rule 6     CompilationUnit -> Square_Annotations PACKAGE QualifiedIdentifier SEMICOLON Curly_ImportDeclaration Curly_TypeDeclaration
+Rule 7     CompilationUnit -> Curly_ImportDeclaration Curly_TypeDeclaration
+Rule 8     Square_Annotations -> Annotations
+Rule 9     Square_Annotations -> <empty>
+Rule 10    Curly_ImportDeclaration -> ImportDeclaration Curly_ImportDeclaration
+Rule 11    Curly_ImportDeclaration -> <empty>
+Rule 12    Curly_TypeDeclaration -> TypeDeclaration Curly_TypeDeclaration
+Rule 13    Curly_TypeDeclaration -> <empty>
+Rule 14    ImportDeclaration -> IMPORT Square_static Identifier Curly_dot_Identifier Square_dot_asterisk
+Rule 15    Square_static -> STATIC
+Rule 16    Square_static -> <empty>
+Rule 17    Curly_dot_Identifier -> . Identifier Curly_dot_Identifier
+Rule 18    Curly_dot_Identifier -> <empty>
+Rule 19    Square_dot_asterisk -> . *
+Rule 20    Square_dot_asterisk -> <empty>
+Rule 21    TypeDeclaration -> ClassOrInterfaceDeclaration ;
+Rule 22    ClassOrInterfaceDeclaration -> Curly_Modifier ClassDeclaration
+Rule 23    ClassOrInterfaceDeclaration -> Curly_Modifier InterfaceDeclaration
+Rule 24    Curly_Modifier -> Modifier Curly_Modifier
+Rule 25    Curly_Modifier -> <empty>
+Rule 26    ClassDeclaration -> NormalClassDeclaration
+Rule 27    ClassDeclaration -> EnumDeclaration
+Rule 28    InterfaceDeclaration -> NormalInterfaceDeclaration
+Rule 29    InterfaceDeclaration -> AnnotationTypeDeclaration
+Rule 30    NormalClassDeclaration -> CLASS Identifier Square_TypeParameters Square_extends_Type Square_implements_TypeList ClassBody
+Rule 31    Square_TypeParameters -> TypeParameters
+Rule 32    Square_TypeParameters -> <empty>
+Rule 33    Square_extends_Type -> EXTENDS Type
+Rule 34    Square_extends_Type -> <empty>
+Rule 35    Square_implements_TypeList -> IMPLEMENTS TypeList
+Rule 36    EnumDeclaration -> ENUM Identifier Square_implements_TypeList EnumBody
+Rule 37    Square_extends_TypeList -> EXTENDS TypeList
+Rule 38    Square_extends_TypeList -> <empty>
+Rule 39    NormalInterfaceDeclaration -> INTERFACE Identifier Square_TypeParameters Square_extends_TypeList InterfaceBody
+Rule 40    AnnotationTypeDeclaration -> @ INTERFACE Identifier AnnotationTypeBody
+Rule 41    Type -> BasicType Curly_Square_Brackets
+Rule 42    Type -> ReferenceType Curly_Square_Brackets
+Rule 43    Curly_Square_Brackets -> [ ] Curly_Square_Brackets
+Rule 44    Curly_Square_Brackets -> <empty>
+Rule 45    BasicType -> BYTE
+Rule 46    BasicType -> SHORT
+Rule 47    BasicType -> CHAR
+Rule 48    BasicType -> INT
+Rule 49    BasicType -> LONG
+Rule 50    BasicType -> FLOAT
+Rule 51    BasicType -> DOUBLE
+Rule 52    BasicType -> BOOLEAN
+Rule 53    ReferenceType -> Identifier Square_TypeArguments Curly_dot_Identifier_Square_TypeArguments
+Rule 54    Square_TypeArguments -> TypeArguments
+Rule 55    Square_TypeArguments -> <empty>
+Rule 56    Curly_dot_Identifier_Square_TypeArguments -> . Identifier Square_TypeArguments Curly_dot_Identifier_Square_TypeArguments
+Rule 57    Curly_dot_Identifier_Square_TypeArguments -> <empty>
+Rule 58    TypeArguments -> < TypeArgument Curly_comma_typeargument >
+Rule 59    Curly_comma_typeargument -> , TypeArgument Curly_comma_typeargument
+Rule 60    Curly_comma_typeargument -> <empty>
+Rule 61    TypeArgument -> ReferenceType ?
+Rule 62    TypeArgument -> ReferenceType ? EXTENDS ReferenceType
+Rule 63    TypeArgument -> ReferenceType ? SUPER ReferenceType
+Rule 64    NonWildcardTypeArguments -> < TypeList >
+Rule 65    TypeList -> ReferenceType
+Rule 66    TypeList -> ReferenceType , TypeList
+Rule 67    TypeArgumentsOrDiamond -> < >
+Rule 68    TypeArgumentsOrDiamond -> TypeArguments
+Rule 69    NonWildcardTypeArgumentsOrDiamond -> < >
+Rule 70    NonWildcardTypeArgumentsOrDiamond -> NonWildcardTypeArguments
+Rule 71    TypeParameters -> < TypeParameter Curly_comma_TypeParameter >
+Rule 72    Curly_comma_TypeParameter -> , TypeParameter Curly_comma_TypeParameter
+Rule 73    Curly_comma_TypeParameter -> <empty>
+Rule 74    TypeParameter -> Identifier Square_extends_Bound
+Rule 75    Square_extends_Bound -> EXTENDS Bound
+Rule 76    Square_extends_Bound -> <empty>
+Rule 77    Bound -> ReferenceType Curly_And_Reference_Type
+Rule 78    Curly_And_Reference_Type -> & ReferenceType Curly_And_Reference_Type
+Rule 79    Curly_And_Reference_Type -> <empty>
+Rule 80    Modifier -> Annotation
+Rule 81    Modifier -> PUBLIC
+Rule 82    Modifier -> PROTECTED
+Rule 83    Modifier -> PRIVATE
+Rule 84    Modifier -> STATIC
+Rule 85    Modifier -> ABSTRACT
+Rule 86    Modifier -> FINAL
+Rule 87    Modifier -> NATIVE
+Rule 88    Modifier -> SYNCHRONIZED
+Rule 89    Modifier -> TRANSIENT
+Rule 90    Modifier -> VOLATILE
+Rule 91    Modifier -> STRICTFP
+Rule 92    Annotations -> Annotation
+Rule 93    Annotations -> Annotation Annotations
+Rule 94    Annotation -> @ QualifiedIdentifier
+Rule 95    Annotation -> @ QualifiedIdentifier ( )
+Rule 96    Annotation -> @ QualifiedIdentifier ( AnnotationElement )
+Rule 97    AnnotationElement -> ElementValue
+Rule 98    AnnotationElement -> ElementValuePairs
+Rule 99    ElementValuePairs -> ElementValuePair
+Rule 100   ElementValuePairs -> ElementValuePair , ElementValuePairs
+Rule 101   ElementValuePair -> Identifier = ElementValue
+Rule 102   ElementValue -> Annotation
+Rule 103   ElementValue -> Expression1
+Rule 104   ElementValue -> ElementValueArrayInitializer
+Rule 105   ElementValueArrayInitializer -> Square_ElementValues_And_comma ElementValueArrayInitializer
+Rule 106   ElementValueArrayInitializer -> <empty>
+Rule 107   Square_ElementValues_And_comma -> ElementValues
+Rule 108   Square_ElementValues_And_comma -> ElementValues ,
+Rule 109   Square_ElementValues_And_comma -> ,
+Rule 110   Square_ElementValues_And_comma -> <empty>
+Rule 111   ElementValues -> ElementValue
+Rule 112   ElementValues -> ElementValue , ElementValues
+Rule 113   Block -> { BlockStatements }
+Rule 114   BlockStatements -> BlockStatement BlockStatements
+Rule 115   BlockStatements -> <empty>
+Rule 116   BlockStatement -> LocalVariableDeclarationStatement
+Rule 117   BlockStatement -> ClassOrInterfaceDeclaration
+Rule 118   BlockStatement -> Square_Identifier_colon Statement
+Rule 119   Square_Identifier_colon -> Identifier :
+Rule 120   Square_Identifier_colon -> <empty>
+Rule 121   LocalVariableDeclarationStatement -> Curly_VariableModifier Type VariableDeclarators ;
+Rule 122   Square_Identifier -> Identifier
+Rule 123   Square_Identifier -> <empty>
+Rule 124   Curly_SwitchBlockStatementGroups -> SwitchBlockStatementGroups Curly_SwitchBlockStatementGroups
+Rule 125   Curly_SwitchBlockStatementGroups -> <empty>
+Rule 126   Square_Expression -> Expression
+Rule 127   Square_Expression -> <empty>
+Rule 128   Square_Catches -> Catches
+Rule 129   Square_Catches -> <empty>
+Rule 130   Square_Finally -> Finally
+Rule 131   Square_Finally -> <empty>
+Rule 132   Statement -> Block
+Rule 133   Statement -> ;
+Rule 134   Statement -> Identifier : Statement
+Rule 135   Statement -> StatementExpression ;
+Rule 136   Statement -> IF ParExpression Statement ELSE Statement
+Rule 137   Statement -> IF ParExpression Statement
+Rule 138   Statement -> ASSERT Expression : Expression ;
+Rule 139   Statement -> ASSERT Expression
+Rule 140   Statement -> SWITCH ParExpression Curly_SwitchBlockStatementGroups
+Rule 141   Statement -> WHILE ParExpression Statement
+Rule 142   Statement -> DO Statement WHILE ParExpression ;
+Rule 143   Statement -> FOR ( ForControl ) Statement
+Rule 144   Statement -> BREAK Square_Identifier ;
+Rule 145   Statement -> CONTINUE Square_Identifier ;
+Rule 146   Statement -> RETURN Square_Expression ;
+Rule 147   Statement -> THROW Expression ;
+Rule 148   Statement -> SYNCHRONIZED ParExpression Block
+Rule 149   Statement -> TRY Block Catches
+Rule 150   Statement -> TRY Block Square_Catches Finally
+Rule 151   Statement -> TRY ResourceSpecification Block Square_Catches Square_Finally
+Rule 152   StatementExpression -> Expression
+Rule 153   Catches -> CatchClause
+Rule 154   Catches -> CatchClause Catches
+Rule 155   CatchClause -> catch ( Curly_VariableModifier CatchType Identifier ) Block
+Rule 156   Curly_VariableModifier -> VariableModifier Curly_VariableModifier
+Rule 157   Curly_VariableModifier -> <empty>
+Rule 158   CatchType -> QualifiedIdentifier
+Rule 159   CatchType -> QualifiedIdentifier | CatchType
+Rule 160   Finally -> FINALLY Block
+Rule 161   ResourceSpecification -> ( Resources )
+Rule 162   ResourceSpecification -> ( Resources ; )
+Rule 163   Resources -> Resource
+Rule 164   Resources -> Resource ; Resources
+Rule 165   Resource -> Curly_VariableModifier ReferenceType VariableDeclaratorId = Expression
+Rule 166   Primary -> Literal
+Rule 167   Primary -> ParExpression
+Rule 168   Primary -> THIS Arguments
+Rule 169   Primary -> THIS
+Rule 170   Primary -> SUPER SuperSuffix
+Rule 171   Primary -> NEW Creator
+Rule 172   Primary -> NonWildcardTypeArguments ExplicitGenericInvocationSuffix
+Rule 173   Primary -> NonWildcardTypeArguments THIS Arguments
+Rule 174   Primary -> Identifier Curly_dot_Identifier Square_IdentifierSuffix
+Rule 175   Primary -> BasicType Curly_Square_Brackets . CLASS
+Rule 176   Primary -> VOID . CLASS
+Rule 177   Square_IdentifierSuffix -> IdentifierSuffix
+Rule 178   Square_IdentifierSuffix -> <empty>
+Rule 179   Literal -> IntegerLiteral
+Rule 180   Literal -> FloatingPointLiteral
+Rule 181   Literal -> CharacterLiteral
+Rule 182   Literal -> StringLiteral
+Rule 183   Literal -> BooleanLiteral
+Rule 184   Literal -> NullLiteral
+Rule 185   ParExpression -> ( Expression )
+Rule 186   Arguments -> ( )
+Rule 187   Arguments -> ( Expression Curly_comma_expression )
+Rule 188   Curly_comma_expression -> , Expression Curly_comma_expression
+Rule 189   Curly_comma_expression -> <empty>
+Rule 190   SuperSuffix -> Arguments
+Rule 191   SuperSuffix -> . Identifier Square_Arguments
+Rule 192   ExplicitGenericInvocationSuffix -> SUPER SuperSuffix
+Rule 193   ExplicitGenericInvocationSuffix -> Identifier Arguments
+Rule 194   EnumBody -> Square_EnumConstants Square_comma Square_EnumBodyDeclarations EnumBody
+Rule 195   EnumBody -> <empty>
+Rule 196   Square_EnumConstants -> EnumConstants
+Rule 197   Square_EnumConstants -> <empty>
+Rule 198   Square_comma -> ,
+Rule 199   Square_comma -> <empty>
+Rule 200   Square_EnumBodyDeclarations -> EnumBodyDeclarations
+Rule 201   Square_EnumBodyDeclarations -> <empty>
+Rule 202   EnumConstants -> EnumConstant
+Rule 203   EnumConstants -> EnumConstants , EnumConstant
+Rule 204   EnumConstant -> Square_Annotations Identifier Square_Arguments Square_ClassBody
+Rule 205   Square_Arguments -> Arguments
+Rule 206   Square_Arguments -> <empty>
+Rule 207   Square_ClassBody -> ClassBody
+Rule 208   Square_ClassBody -> <empty>
+Rule 209   EnumBodyDeclarations -> ; Curly_ClassBodyDeclaration
+Rule 210   Curly_ClassBodyDeclaration -> ClassBodyDeclaration Curly_ClassBodyDeclaration
+Rule 211   Curly_ClassBodyDeclaration -> <empty>
+Rule 212   AnnotationTypeBody -> { AnnotationTypeElementDeclarations }
+Rule 213   AnnotationTypeBody -> { }
+Rule 214   AnnotationTypeElementDeclarations -> AnnotationTypeElementDeclaration
+Rule 215   AnnotationTypeElementDeclarations -> AnnotationTypeElementDeclarations AnnotationTypeElementDeclaration
+Rule 216   AnnotationTypeElementDeclaration -> Curly_Modifier AnnotationTypeElementRest
+Rule 217   AnnotationTypeElementRest -> Type Identifier AnnotationMethodOrConstantRest
+Rule 218   AnnotationTypeElementRest -> ClassDeclaration
+Rule 219   AnnotationTypeElementRest -> InterfaceDeclaration
+Rule 220   AnnotationTypeElementRest -> EnumDeclaration
+Rule 221   AnnotationTypeElementRest -> AnnotationTypeDeclaration
+Rule 222   AnnotationMethodOrConstantRest -> AnnotationMethodRest
+Rule 223   AnnotationMethodOrConstantRest -> ConstantDeclaratorsRest
+Rule 224   AnnotationMethodRest -> ( ) [ ] Square_default_ElementValue
+Rule 225   AnnotationMethodRest -> ( ) Square_default_ElementValue
+Rule 226   Square_default_ElementValue -> DEFAULT ElementValue
+Rule 227   Square_default_ElementValue -> <empty>
+
+Terminals, with rules where they appear
+
+&                    : 78
+(                    : 95 96 143 155 161 162 185 186 187 224 225
+)                    : 95 96 143 155 161 162 185 186 187 224 225
+*                    : 19
+,                    : 5 59 66 72 100 108 109 112 188 198 203
+.                    : 3 17 19 56 175 176 191
+:                    : 119 134 138
+;                    : 21 121 133 135 138 142 144 145 146 147 162 164 209
+<                    : 58 64 67 69 71
+=                    : 101 165
+>                    : 58 64 67 69 71
+?                    : 61 62 63
+@                    : 40 94 95 96
+ABSTRACT             : 85
+ASSERT               : 138 139
+BOOLEAN              : 52
+BOOLEAN_CONST        : 
+BREAK                : 144
+BYTE                 : 45
+CASE                 : 
+CATCH                : 
+CHAR                 : 47
+CHAR_CONST           : 
+CLASS                : 30 175 176
+COMMA                : 
+COMMENT              : 
+CONST                : 
+CONTINUE             : 145
+DEFAULT              : 226
+DO                   : 142
+DOT                  : 
+DOUBLE               : 51
+ELSE                 : 136
+ENUM                 : 36
+EXTENDS              : 33 37 62 75
+FINAL                : 86
+FINALLY              : 160
+FLOAT                : 50
+FLOAT_CONST          : 
+FOR                  : 143
+GOTO                 : 
+IDENTIFIER           : 1
+IF                   : 136 137
+IMPLEMENTS           : 35
+IMPORT               : 14
+INSTANCEOF           : 
+INT                  : 48
+INTERFACE            : 39 40
+INT_CONST            : 
+KEYWORD              : 
+LCURPAREN            : 
+LITERAL              : 
+LONG                 : 49
+LROUNPAREN           : 
+LSQPAREN             : 
+NATIVE               : 87
+NEW                  : 171
+NULL                 : 
+OPERATOR             : 
+PACKAGE              : 6
+PRIVATE              : 83
+PROTECTED            : 82
+PUBLIC               : 81
+RCURPAREN            : 
+RETURN               : 146
+RROUNPAREN           : 
+RSQPAREN             : 
+SEMICOLON            : 6
+SEPERATOR            : 
+SHORT                : 46
+STATIC               : 15 84
+STRCITFP             : 
+STRING               : 
+SUPER                : 63 170 192
+SWITCH               : 140
+SYNCHRONIZED         : 88 148
+THIS                 : 168 169 173
+THROW                : 147
+THROWS               : 
+TRANSIENT            : 89
+TRY                  : 149 150 151
+VOID                 : 176
+VOLATILE             : 90
+WHILE                : 141 142
+WHITESPACE           : 
+[                    : 43 224
+]                    : 43 224
+error                : 
+{                    : 113 212 213
+|                    : 159
+}                    : 113 212 213
+
+Nonterminals, with rules where they appear
+
+Annotation           : 80 92 93 102
+AnnotationElement    : 96
+AnnotationMethodOrConstantRest : 217
+AnnotationMethodRest : 222
+AnnotationTypeBody   : 40
+AnnotationTypeDeclaration : 29 221
+AnnotationTypeElementDeclaration : 214 215
+AnnotationTypeElementDeclarations : 212 215
+AnnotationTypeElementRest : 216
+Annotations          : 8 93
+Arguments            : 168 173 190 193 205
+BasicType            : 41 175
+Block                : 132 148 149 150 151 155 160
+BlockStatement       : 114
+BlockStatements      : 113 114
+BooleanLiteral       : 183
+Bound                : 75
+CatchClause          : 153 154
+CatchType            : 155 159
+Catches              : 128 149 154
+CharacterLiteral     : 181
+ClassBody            : 30 207
+ClassBodyDeclaration : 210
+ClassDeclaration     : 22 218
+ClassOrInterfaceDeclaration : 21 117
+CompilationUnit      : 
+ConstantDeclaratorsRest : 223
+Creator              : 171
+Curly_And_Reference_Type : 77 78
+Curly_ClassBodyDeclaration : 209 210
+Curly_ImportDeclaration : 6 7 10
+Curly_Modifier       : 22 23 24 216
+Curly_Square_Brackets : 41 42 43 175
+Curly_SwitchBlockStatementGroups : 124 140
+Curly_TypeDeclaration : 6 7 12
+Curly_VariableModifier : 121 155 156 165
+Curly_comma_TypeParameter : 71 72
+Curly_comma_expression : 187 188
+Curly_comma_typeargument : 58 59
+Curly_dot_Identifier : 14 17 174
+Curly_dot_Identifier_Square_TypeArguments : 53 56
+ElementValue         : 97 101 111 112 226
+ElementValueArrayInitializer : 104 105
+ElementValuePair     : 99 100
+ElementValuePairs    : 98 100
+ElementValues        : 107 108 112
+EnumBody             : 36 194
+EnumBodyDeclarations : 200
+EnumConstant         : 202 203
+EnumConstants        : 196 203
+EnumDeclaration      : 27 220
+ExplicitGenericInvocationSuffix : 172
+Expression           : 126 138 138 139 147 152 165 185 187 188
+Expression1          : 103
+Finally              : 130 150
+FloatingPointLiteral : 180
+ForControl           : 143
+Identifier           : 2 3 14 17 30 36 39 40 53 56 74 101 119 122 134 155 174 191 193 204 217 0
+IdentifierSuffix     : 177
+ImportDeclaration    : 10
+IntegerLiteral       : 179
+InterfaceBody        : 39
+InterfaceDeclaration : 23 219
+Literal              : 166
+LocalVariableDeclarationStatement : 116
+Modifier             : 24
+NonWildcardTypeArguments : 70 172 173
+NonWildcardTypeArgumentsOrDiamond : 
+NormalClassDeclaration : 26
+NormalInterfaceDeclaration : 28
+NullLiteral          : 184
+ParExpression        : 136 137 140 141 142 148 167
+Primary              : 
+QualifiedIdentifier  : 3 4 5 6 94 95 96 158 159
+QualifiedIdentifierList : 5
+ReferenceType        : 42 61 62 62 63 63 65 66 77 78 165
+Resource             : 163 164
+ResourceSpecification : 151
+Resources            : 161 162 164
+STRICTFP             : 91
+Square_Annotations   : 6 204
+Square_Arguments     : 191 204
+Square_Catches       : 150 151
+Square_ClassBody     : 204
+Square_ElementValues_And_comma : 105
+Square_EnumBodyDeclarations : 194
+Square_EnumConstants : 194
+Square_Expression    : 146
+Square_Finally       : 151
+Square_Identifier    : 144 145
+Square_IdentifierSuffix : 174
+Square_Identifier_colon : 118
+Square_TypeArguments : 53 56
+Square_TypeParameters : 30 39
+Square_comma         : 194
+Square_default_ElementValue : 224 225
+Square_dot_asterisk  : 14
+Square_extends_Bound : 74
+Square_extends_Type  : 30
+Square_extends_TypeList : 39
+Square_implements_TypeList : 30 36
+Square_static        : 14
+Statement            : 118 134 136 136 137 141 142 143
+StatementExpression  : 135
+StringLiteral        : 182
+SuperSuffix          : 170 192
+SwitchBlockStatementGroups : 124
+Type                 : 33 121 217
+TypeArgument         : 58 59
+TypeArguments        : 54 68
+TypeArgumentsOrDiamond : 
+TypeDeclaration      : 12
+TypeList             : 35 37 64 66
+TypeParameter        : 71 72
+TypeParameters       : 31
+VariableDeclaratorId : 165
+VariableDeclarators  : 121
+VariableModifier     : 156
+catch                : 155
+

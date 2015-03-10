@@ -242,31 +242,37 @@ def p_NonWildcardTypeArguments(p):
 	''' NonWildcardTypeArguments : '<' TypeList '>'  '''
 
 def p_TypeList(p):
-	'''  TypeList : ReferenceType | ReferenceType ',' TypeList '''  
+	'''  TypeList : ReferenceType 
+				| ReferenceType ',' TypeList '''  
 
 def p_TypeArgumentsOrDiamond(p):
-	'''  TypeArgumentsOrDiamond : '<' '>' | TypeArguments '''
+	'''  TypeArgumentsOrDiamond : '<' '>' 
+								| TypeArguments '''
 
 def p_NonWildcardTypeArgumentsOrDiamond(p):
-	''' NonWildcardTypeArgumentsOrDiamond :  '<' '>' | NonWildcardTypeArguments '''
+	''' NonWildcardTypeArgumentsOrDiamond :  '<' '>' 
+											| NonWildcardTypeArguments '''
 
 def p_TypeParameters(p):
 	''' TypeParameters : '<' TypeParameter Curly_comma_TypeParameter '>' '''
 
 def p_Curly_comma_TypeParameter(p):
-	'''Curly_comma_TypeParameter : ',' TypeParameter Curly_comma_TypeParameter |  '''
+	'''Curly_comma_TypeParameter : ',' TypeParameter Curly_comma_TypeParameter 
+								|  '''
 
 def p_TypeParameter(p):
 	''' TypeParameter : Identifier Square_extends_Bound '''
 
 def p_Square_extends_Bound(p):
-	' Square_extends_Bound : EXTENDS Bound |  '
+	''' Square_extends_Bound : EXTENDS Bound 
+							|  '''
 
 def p_Bound(p):
 	' Bound : ReferenceType Curly_And_Reference_Type'
 
 def p_Curly_And_Reference_Type(p):
-	''' Curly_And_Reference_Type : '&' ReferenceType Curly_And_Reference_Type |  '''  
+	''' Curly_And_Reference_Type : '&' ReferenceType Curly_And_Reference_Type 
+									|  '''  
 
 
 #-------------------------------------------------------------------------------------------------
@@ -312,9 +318,8 @@ def p_Curly_And_Reference_Type(p):
 #     ElementValue { , ElementValue }
 
 def p_Modifier(p):
-	'''Modifier : Annotation 
+	''' Modifier : Annotation 
 				| PUBLIC 
-				| PROTECTED 
 				| PROTECTED 
 				| PRIVATE 
 				| STATIC 
@@ -327,31 +332,43 @@ def p_Modifier(p):
 				| STRICTFP'''
 
 def p_Annotations(p):
-	'Annotations : Annotation | Annotation Annotations'
+	'''Annotations : Annotation 
+					| Annotation Annotations'''
 
 def p_Annotation(p):
-    ''' Annotation : '@' QualifiedIdentifier | '@' QualifiedIdentifier '(' ')' | '@' QualifiedIdentifier '(' AnnotationElement ')' '''
+    ''' Annotation : '@' QualifiedIdentifier 
+    				| '@' QualifiedIdentifier '(' ')' 
+    				| '@' QualifiedIdentifier '(' AnnotationElement ')' '''
 
 def p_AnnotationElement(p):
-	'AnnotationElement : ElementValue | ElementValuePairs'
+	'''AnnotationElement : ElementValue 
+						| ElementValuePairs'''
 
 def p_ElementValuePairs(p):
-	''' ElementValuePairs : ElementValuePair | ElementValuePair ',' ElementValuePairs '''
+	''' ElementValuePairs : ElementValuePair 
+						| ElementValuePair ',' ElementValuePairs '''
 
 def p_ElementValuePair(p):
 	'''  ElementValuePair : Identifier '=' ElementValue ''' 
 
 def p_ElementValue(p):
-	'ElementValue : Annotation | Expression1 | ElementValueArrayInitializer'
+	'''ElementValue : Annotation 
+					| Expression1 
+					| ElementValueArrayInitializer'''
 
 def p_ElemetValueArrayInitializer(p):
-	'ElementValueArrayInitializer : Square_ElementValues_And_comma ElementValueArrayInitializer |  '
+	'''ElementValueArrayInitializer : Square_ElementValues_And_comma ElementValueArrayInitializer 
+									|  '''
 
 def p_Square_ElementValues_And_comma(p):
-	'''Square_ElementValues_And_comma : ElementValues | ElementValues ',' | ',' | '''
+	'''Square_ElementValues_And_comma : ElementValues 
+										| ElementValues ',' 
+										| ',' 
+										| '''
 
 def p_ElementValues(p):
-	'''ElementValues : ElementValue | ElementValue ',' ElementValues '''
+	'''ElementValues : ElementValue 
+					| ElementValue ',' ElementValues '''
 
 # -----------------------------------------------------------------------------------------------------
 # ClassBody: 
@@ -565,31 +582,40 @@ def p_Block(p):
 	''' Block : '{' BlockStatements '}' '''
 
 def p_BlockStatements(p):
-	''' BlockStatements : BlockStatement BlockStatements |   '''
+	''' BlockStatements : BlockStatement BlockStatements 
+						|   '''
 
 def p_BlockStatement(p):
-	''' BlockStatement : LocalVariableDeclarationStatement | ClassOrInterfaceDeclaration | Square_Identifier_colon Statement '''
+	''' BlockStatement : LocalVariableDeclarationStatement 
+						| ClassOrInterfaceDeclaration 
+						| Square_Identifier_colon Statement '''
 
 def p_Square_Identifier_colon(p): 
-	''' Square_Identifier_colon : Identifier ':' |    '''
+	''' Square_Identifier_colon : Identifier ':' 
+								|    '''
 
 def p_LocalVariableDeclarationStatement(p):
 	''' LocalVariableDeclarationStatement : Curly_VariableModifier Type VariableDeclarators ';' '''
 
 def p_Square_Identifier(p):
-	' Square_Identifier : Identifier | '
+	''' Square_Identifier : Identifier 
+							| '''
 
 def p_Curly_SwitchBlockStatementGroups(p):
-	' Curly_SwitchBlockStatementGroups : SwitchBlockStatementGroups Curly_SwitchBlockStatementGroups | ' 
+	''' Curly_SwitchBlockStatementGroups : SwitchBlockStatementGroups Curly_SwitchBlockStatementGroups 
+											| '''
 
 def p_Square_Expression(p):
-	' Square_Expression : Expression | '
+	''' Square_Expression : Expression 
+							| '''
 
 def p_Square_Catches(p):
-	' Square_Catches : Catches | '
+	''' Square_Catches : Catches 
+						| '''
 
 def p_Square_Finally(p):
-	' Square_Finally : Finally | '
+	''' Square_Finally : Finally 
+						| '''
 
 def p_Statement(p):
 	''' Statement : Block 
@@ -598,7 +624,7 @@ def p_Statement(p):
 					| StatementExpression ';'
 					| IF ParExpression Statement ELSE Statement
 					| IF ParExpression Statement
-					| ASSERT Expression : Expression ';'
+					| ASSERT Expression ':' Expression ';'
 					| ASSERT Expression
 					| SWITCH ParExpression Curly_SwitchBlockStatementGroups
 					| WHILE ParExpression Statement
@@ -640,25 +666,30 @@ def p_StatementExpression(p):
 #     {VariableModifier} ReferenceType VariableDeclaratorId = Expression 
 
 def p_Catches(p):
-	''' Catches : CatchClause | CatchClause Catches'''
+	''' Catches : CatchClause 
+				| CatchClause Catches'''
 
 def p_CatchClause(p) :
 	''' CatchClause : catch '(' Curly_VariableModifier CatchType Identifier ')' Block   '''
 
 def p_Curly_VariableModifier(p) :
-	''' Curly_VariableModifier : VariableModifier Curly_VariableModifier |   '''
+	''' Curly_VariableModifier : VariableModifier Curly_VariableModifier 
+								|   '''
 
 def p_CatchType(p):
-	'''CatchType : QualifiedIdentifier | QualifiedIdentifier '|' CatchType '''
+	'''CatchType : QualifiedIdentifier 
+					| QualifiedIdentifier '|' CatchType '''
 
 def p_Finally(p):
 	' Finally : FINALLY Block '
 
 def p_ResourceSpecification(p):
-	'''ResourceSpecification : '(' Resources '') | '(' Resources ';' ')' '''
+	'''ResourceSpecification : '(' Resources ')' 
+								| '(' Resources ';' ')' '''
 
 def p_Resources(p):
-	'''Resources : Resource | Resource ';' Resources '''
+	''' Resources : Resource 
+					| Resource ';' Resources '''
 
 def p_Resource(p):
 	''' Resource : Curly_VariableModifier ReferenceType VariableDeclaratorId '=' Expression '''
@@ -875,24 +906,34 @@ def p_Primary(p):
 				| VOID '.' CLASS '''
 
 def p_Square_IdentifierSuffix(p):
-	'Square_IdentifierSuffix : IdentifierSuffix | '
+	'''Square_IdentifierSuffix : IdentifierSuffix 
+								| '''
 
 def p_Literal(p):
-	'Literal : IntegerLiteral | FloatingPointLiteral | CharacterLiteral | StringLiteral | BooleanLiteral | NullLiteral'
+	'''Literal : IntegerLiteral 
+				| FloatingPointLiteral 
+				| CharacterLiteral 
+				| StringLiteral 
+				| BooleanLiteral 
+				| NullLiteral'''
 
 def p_ParExpression(p):
 	''' ParExpression : '(' Expression ')' '''
 
 def p_Arguments(p):
-	''' Arguments : '(' ')'| '(' Expression Curly_comma_expression ')' '''
+	''' Arguments : '(' ')' 
+					| '(' Expression Curly_comma_expression ')' '''
 
 def p_Curly_comma_expression(p):
-	''' Curly_comma_expression : ',' Expression Curly_comma_expression |  '''
+	''' Curly_comma_expression : ',' Expression Curly_comma_expression 
+								|  '''
 
 def p_SuperSuffix(p):
-	''' SuperSuffix : Arguments | '.' Identifier Square_Arguments '''
+	''' SuperSuffix : Arguments 
+					| '.' Identifier Square_Arguments '''
 def p_ExplicitGenericInvocationSuffix(p):
-	''' ExplicitGenericInvocationSuffix : SUPER SuperSuffix | Identifier Arguments '''
+	''' ExplicitGenericInvocationSuffix : SUPER SuperSuffix 
+										| Identifier Arguments '''
 
 # ---------------------------------------------------------------------------------------------
 # Creator:  
@@ -973,40 +1014,50 @@ def p_ExplicitGenericInvocationSuffix(p):
 #     ( ) [[]] [default ElementValue]
 
 def p_EnumBody(p):
-	'EnumBody : Square_EnumConstants Square_comma Square_EnumBodyDeclarations EnumBody | '
+	'''EnumBody : Square_EnumConstants Square_comma Square_EnumBodyDeclarations EnumBody 
+				| '''
 
 def p_Square_EnumConstants(p):
-	'Square_EnumConstants : EnumConstants | '
+	'''Square_EnumConstants : EnumConstants 
+							| '''
 
 def p_Square_comma(p):
-	''' Square_comma : ',' | '''
+	''' Square_comma : ',' 
+						| '''
 
 def p_Square_EnumBodyDeclarations(p):
-	''' Square_EnumBodyDeclarations : EnumBodyDeclarations |  '''
+	''' Square_EnumBodyDeclarations : EnumBodyDeclarations 
+									|  '''
 
 def p_EnumConstants(p):
-	'''EnumConstants : EnumConstant | EnumConstants ',' EnumConstant '''
+	'''EnumConstants : EnumConstant 
+						| EnumConstants ',' EnumConstant '''
 
 def p_EnumConstant(p):
 	''' EnumConstant : Square_Annotations Identifier Square_Arguments Square_ClassBody   '''
 
 def p_Square_Arguments(p):
-	''' Square_Arguments : Arguments | '''
+	''' Square_Arguments : Arguments 
+						| '''
 
 def p_Square_ClassBody(p):
-	'Square_ClassBody : ClassBody | '
+	'''Square_ClassBody : ClassBody 
+						| '''
 
 def p_EnumBodyDeclarations(p):
 	''' EnumBodyDeclarations : ';' Curly_ClassBodyDeclaration '''
 
 def p_Curly_ClassBodyDeclaration(p):
-	' Curly_ClassBodyDeclaration : ClassBodyDeclaration Curly_ClassBodyDeclaration | '
+	''' Curly_ClassBodyDeclaration : ClassBodyDeclaration Curly_ClassBodyDeclaration 
+									| '''
 
 def p_AnnotationTypeBody(p):
-	''' AnnotationTypeBody : '{' AnnotationTypeElementDeclarations '}' | '{' '}' '''
+	''' AnnotationTypeBody : '{' AnnotationTypeElementDeclarations '}' 
+							| '{' '}' '''
 
 def p_AnnotationTypeElementDeclarations(p):
-	' AnnotationTypeElementDeclarations : AnnotationTypeElementDeclaration | AnnotationTypeElementDeclarations AnnotationTypeElementDeclaration '
+	''' AnnotationTypeElementDeclarations : AnnotationTypeElementDeclaration 
+										| AnnotationTypeElementDeclarations AnnotationTypeElementDeclaration '''
 
 def p_AnnotationTypeElementDeclaration(p) :
 	'AnnotationTypeElementDeclaration : Curly_Modifier AnnotationTypeElementRest'
@@ -1019,13 +1070,16 @@ def p_AnnotationTypeElementRest(p):
 									| AnnotationTypeDeclaration '''
 
 def p_AnnotationMethodOrConstantRest(p):
-	''' AnnotationMethodOrConstantRest : AnnotationMethodRest | ConstantDeclaratorsRest '''
+	''' AnnotationMethodOrConstantRest : AnnotationMethodRest 
+										| ConstantDeclaratorsRest '''
 
 def p_AnnotationMethodRest(p):
-	''' AnnotationMethodRest : '(' ')' '[' ']' Square_default_ElementValue | '(' ')' Square_default_ElementValue   '''
+	''' AnnotationMethodRest : '(' ')' '[' ']' Square_default_ElementValue 
+							| '(' ')' Square_default_ElementValue   '''
 
 def p_Square_default_ElementValue(p):
-	''' Square_default_ElementValue : DEFAULT ElementValue |   '''
+	''' Square_default_ElementValue : DEFAULT ElementValue 
+									|   '''
 
 #---------------------------------------------------------------------------------------------------------
 #Parser
