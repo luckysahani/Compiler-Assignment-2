@@ -283,42 +283,28 @@ def p_Curly_And_Reference_Type(p):
 #     ElementValue { , ElementValue }
 
 def p_Modifier(p):
+	'''Modifier : Annotation | PUBLIC | PROTECTED | PROTECTED | PRIVATE | STATIC 
+				|ABSTRACT | FINAL | NATIVE | SYNCHRONIZED | TRANSIENT | VOLATILE | STRICTFP'''
 
-Modifier: 
-    Annotation
-    public
-    protected
-    private
-    static 
-    abstract
-    final
-    native
-    synchronized
-    transient
-    volatile
-    strictfp
+def p_Annotations(p):
+	'Annotations : Annotation | Annotation Annotations'
 
-Annotations:
-    Annotation {Annotation}
+def p_Annotation(p):
+    ''' Annotation : '@' QualifiedIdentifier | '@' QualifiedIdentifier '(' ')' | '@' QualifiedIdentifier '(' AnnotationElement ')' '''
 
-Annotation:
-    @ QualifiedIdentifier [ ( [AnnotationElement] ) ]
+def p_AnnotationElement(p):
+	'AnnotationElement : ElementValue | ElementValuePairs'
 
-AnnotationElement:
-    ElementValuePairs
-    ElementValue
+def p_ElementValuePairs(p):
+	''' ElementValuePairs : ElementValuePair | ElementValuePair ',' ElementValuePairs '''
 
-ElementValuePairs:
-    ElementValuePair { , ElementValuePair }
+def p_ElementValuePair(p):
+	'''  ElementValuePair : Identifier '=' ElementValue ''' 
 
-ElementValuePair:
-    Identifier = ElementValue
-    
-ElementValue:
-    Annotation
-    Expression1 
-    ElementValueArrayInitializer
+def p_ElementValue(p):
+	'ElementValue : Annotation | Expression1 | ElementValueArrayInitializer'
 
+def p_ElemetValueArrayInitializer(p):
 ElementValueArrayInitializer:
     { [ElementValues] [,] }
 
