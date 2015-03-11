@@ -413,6 +413,34 @@ def p_ElementValues(p):
 #     (Type | void) Identifier MethodDeclaratorRest
 #     Identifier ConstructorDeclaratorRest
 
+def p_ClassBody:
+	''' ClassBody : '{' Curly_ClassBodyDeclaration '}' '''
+
+def p_Curly_ClassBodyDeclaration:
+	''' Curly_ClassBodyDeclaration : ClassBodyDeclaration Curly_ClassBodyDeclaration
+									| '''
+def p_ClassBody:
+	''' ClassBody : ; 
+		| Curly_Modifier MemberDecl
+		| Square_static Block '''
+
+def p_MemberDecl:
+	''' MemberDecl : MethodOrFieldDecl
+		| VOID Identifier VoidMethodDeclaratorRest
+		| Identifier ConstructorDeclaratorRest
+		| GenericMethodOrConstructorDecl
+		| ClassDeclaration
+		| InterfaceDeclaration '''
+
+def p_MethodOrFieldDecl:
+	''' MethodOrFieldDecl : Type Identifier MethodOrFieldRest'''
+
+def p_MethodOrFieldRest:
+	''' MethodOrFieldRest : FieldDeclaratorsRest ';'
+							| MethodDeclaratorRest '''
+
+def p_FieldDeclaratorsRest:
+	''' FieldDeclaratorsRest : VariableDeclaratorRest '
 
 
 
