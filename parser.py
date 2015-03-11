@@ -71,7 +71,7 @@ def p_QualifiedIdentifierList(p):
 # AnnotationTypeDeclaration:
 #     @ interface Identifier AnnotationTypeBody
 def p_CompilationUnit(p): 
-	''' CompilationUnit : Square_Annotations PACKAGE QualifiedIdentifier SEMICOLON Curly_ImportDeclaration Curly_TypeDeclaration
+	''' CompilationUnit : Square_Annotations PACKAGE QualifiedIdentifier ';' Curly_ImportDeclaration Curly_TypeDeclaration
 						| Curly_ImportDeclaration Curly_TypeDeclaration '''
 
 def p_Square_Annotations(p):
@@ -506,11 +506,33 @@ def p_FieldDeclaratorsRest:
 #     TypeParameters (Type | void) Identifier InterfaceMethodDeclaratorRest
 
 
+def p_InterfaceBody(p):
+	''' InterfaceBody : '{' Curly_InterfaceBodyDeclaration '}'   '''
 
+def p_Curly_InterfaceBodyDeclaration(p):
+	''' Curly_InterfaceBodyDeclaration : InterfaceBodyDeclaration Curly_InterfaceBodyDeclaration 
+										| '''
 
+def p_InterfaceBodyDeclaration(p):
+	'''  InterfaceBodyDeclaration : ';'
+									| Curly_Modifier InterfaceMemberDecl '''
 
+def p_InterfaceMemberDecl(p):
+	''' InterfaceMemberDecl : InterfaceMethodOrFieldDecl
+							| VOID Identifier VoidInterfaceMethodDeclaratorRest
+							| InterfaceGenericMethodDecl
+							| ClassDeclaration
+							| InterfaceDeclaration '''
 
+def p_InterfaceMethodOrFieldDecl(p):
+	''' InterfaceMethodOrFieldDecl : Type Identifier InterfaceMethodOrFieldRest '''
 
+def p_InterfaceMethodOrFieldRest(p):
+	''' InterfaceMethodOrFieldRest : ConstantDeclaratorsRest ';' 
+									| InterfaceMethodDeclaratorRest '''
+
+def p_ConstantDeclratorsRest(p):
+	''' 
 
 
 
