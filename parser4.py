@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+
+import ply.yacc as yacc
+
+from lexer import tokens
+
+
+def p_CompilationUnit(p):
+	''' CompilationUnit : ProgramFile '''
+
+def p_OP_DIM(p):
+	''' OP_DIM : LSQPAREN RSQPAREN '''
+
 def p_TypeSpecifier(p):
 	''' TypeSpecifier : TypeName
 	| TypeName Dims '''
@@ -7,18 +20,17 @@ def p_TypeName(p):
 	| QualifiedName '''
 
 def p_ClassNameList(p):
-	''' ClassNameList 
-        : QualifiedName
+	''' ClassNameList : QualifiedName
         | ClassNameList COMMA QualifiedName '''
 
 def p_PrimitiveType(p):
-	''' PrimitiveType : BOOLEAN_CONST
-	| CHAR_CONST
+	''' PrimitiveType : BOOLEAN
+	| CHAR
 	| BYTE
 	| SHORT
-	| INT_CONST
+	| INT
 	| LONG
-	| FLOAT_CONST
+	| FLOAT
 	| DOUBLE
 	| VOID '''
 
@@ -26,8 +38,7 @@ def p_SemiColons(p):
 	''' SemiColons : SEMICOLON
         | SemiColons SEMICOLON '''
 
-def p_CompilationUnit(p):
-	''' CompilationUnit : ProgramFile '''
+
 
 def p_ProgramFile(p):
 	''' ProgramFile : PackageStatement ImportStatements TypeDeclarations
@@ -46,8 +57,7 @@ def p_TypeDeclarations(p):
 	| TypeDeclarations TypeDeclarationOptSemi '''
 
 def p_TypeDeclarationOptSemi(p):
-	''' TypeDeclarationOptSemi 
-        : TypeDeclaration
+	''' TypeDeclarationOptSemi : TypeDeclaration
         | TypeDeclaration SemiColons '''
 
 def p_ImportStatements(p):
@@ -104,8 +114,7 @@ def p_FieldDeclarations(p):
         | FieldDeclarations FieldDeclarationOptSemi '''
 
 def p_FieldDeclarationOptSemi(p):
-	''' FieldDeclarationOptSemi 
-        : FieldDeclaration
+	''' FieldDeclarationOptSemi : FieldDeclaration
         | FieldDeclaration SemiColons '''
 
 def p_FieldDeclaration(p):
@@ -182,8 +191,7 @@ def p_StaticInitializer(p):
 	''' StaticInitializer : STATIC Block '''
 
 def p_NonStaticInitializer(p):
-	''' NonStaticInitializer 
-        : Block '''
+	''' NonStaticInitializer : Block '''
 
 def p_Extends(p):
 	''' Extends : EXTENDS TypeName
@@ -297,7 +305,7 @@ def p_ComplexPrimary(p):
 
 def p_ComplexPrimaryNoParenthesis(p):
 	''' ComplexPrimaryNoParenthesis : LITERAL
-	| BOOLLIT
+	| BOOLEAN_CONST
 	| ArrayAccess
 	| FieldAccess
 	| MethodCall '''
@@ -325,20 +333,18 @@ def p_MethodAccess(p):
 def p_SpecialName(p):
 	''' SpecialName : THIS
 	| SUPER
-	| JNULL '''
+	| NULL '''
 
 def p_ArgumentList(p):
 	''' ArgumentList : Expression
 	| ArgumentList COMMA Expression '''
 
 def p_NewAllocationExpression(p):
-	''' NewAllocationExpression 
-        : PlainNewAllocationExpression
+	''' NewAllocationExpression : PlainNewAllocationExpression
         | QualifiedName DOT PlainNewAllocationExpression '''
 
 def p_PlainNewAllocationExpression(p):
-	''' PlainNewAllocationExpression 
-    	: ArrayAllocationExpression
+	''' PlainNewAllocationExpression : ArrayAllocationExpression
     	| ClassAllocationExpression
     	| ArrayAllocationExpression LCURPAREN RCURPAREN
     	| ClassAllocationExpression LCURPAREN RCURPAREN
@@ -482,3 +488,15 @@ def p_Expression(p):
 def p_ConstantExpression(p):
 	''' ConstantExpression : ConditionalExpression '''
 
+#---------------------------------------------------------------------------------------------------------
+#Parser
+parser = yacc.yacc()
+
+while True:
+   try:
+       s = raw_input('Input:')
+   except EOFError:
+       break
+   if not s: continue
+   result = parser.parse(s)
+   print result

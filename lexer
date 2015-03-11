@@ -74,7 +74,7 @@ reserved = {
 
 
 seperator = {
-  ':' : 'COLON'
+  ':' : 'COLON',
   ';' : 'SEMICOLON',
   ',' : 'COMMA' ,
   '.' : 'DOT' ,
@@ -98,7 +98,19 @@ tokens = [ 'WHITESPACE',
            'SEPERATOR',
            'OPERATOR',
            'LITERAL',
-           'COMMENT'] + list(reserved.values()) + list(seperator.values())
+           'COMMENT','OP_LOR', 'OP_LAND',
+        'OP_EQ', 'OP_NE', 'OP_GE', 'OP_LE',
+        'OP_SHL', 'OP_SHR', 'OP_SHRR',
+
+        'ASS_MUL', 'ASS_DIV', 'ASS_MOD',
+        'ASS_ADD', 'ASS_SUB', 'ASS_SHL', 'ASS_SHR', 'ASS_SHRR',
+        'ASS_AND', 'ASS_OR', 'ASS_XOR',
+
+        'OP_INC', 'OP_DEC', 
+        'ELLIPSIS'
+
+           ] + list(reserved.values()) + list(seperator.values())
+
 
 
 ## COMMENT REGEX
@@ -185,9 +197,44 @@ def t_SEPERATOR(t):
     t.type = seperator.get(t.value,'SEPERATOR')   # Check for seperators
     return t
 
+
+t_OP_LOR = r'\|\|'
+t_OP_LAND = '&&'
+
+t_OP_EQ = '=='
+t_OP_NE = '!='
+t_OP_GE = '>='
+t_OP_LE = '<='
+
+t_OP_SHL = '<<'
+t_OP_SHR = '>>'
+t_OP_SHRR = '>>>'
+
+t_ASS_MUL = r'\*='
+t_ASS_DIV = '/='
+t_ASS_MOD = '%='
+t_ASS_ADD = r'\+='
+t_ASS_SUB = '-='
+t_ASS_SHL = '<<='
+t_ASS_SHR = '>>='
+t_ASS_SHRR = '>>>='
+t_ASS_AND = '&='
+t_ASS_OR = r'\|='
+t_ASS_XOR = '\^='
+
+t_OP_INC = r'\+\+'
+t_OP_DEC = r'\-\-'
+
+t_ELLIPSIS = r'\.\.\.'
+
+
 def t_OPERATOR(t):
-    r'(>>>=|>>=|<<=|>>|<<|>>>|>=|<=|>|<|==|=|\&\&|\&=|\&|{\+\-\|\&}{2}|[\+\-\*/\&\|\^\%\!]=|[\+\-\*/\&\|\^\%\!\~\?\:])'
+    r'(>|<|=|\&|\+|\-)'
     return t
+
+    # def t_OPERATOR(t):
+    # r'(>>>=|>>=|<<=|>>|<<|>>>|>=|<=|>|<|==|=|\&\&|\&=|\&|{\+\-\|\&}{2}|[\+\-\*/\&\|\^\%\!]=|[\+\-\*/\&\|\^\%\!\~\?\:])'
+    # return t
 
 def t_newline(t):
     r'[\n\r]'
