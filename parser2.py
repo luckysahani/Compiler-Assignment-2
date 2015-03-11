@@ -1,190 +1,144 @@
-#!/usr/bin/env python
+TypeSpecifier
+	: TypeName
+	| TypeName Dims
+	;
 
-import ply.yacc as yacc
+TypeName
+	: PrimitiveType
+	| QualifiedName
+	;
 
-from lexer import tokens
+ClassNameList
+        : QualifiedName
+        | ClassNameList ',' QualifiedName
+	;
 
+PrimitiveType
+	: BOOLEAN
+	| CHAR
+	| BYTE
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| VOID
+	;
 
+SemiColons
+	: ';'
+        | SemiColons ';'
+        ;
 
-# TypeSpecifier
-# 	: TypeName
-# 	| TypeName Dims
-# 	;
+CompilationUnit
+	: ProgramFile
+        ;
 
-# TypeName
-# 	: PrimitiveType
-# 	| QualifiedName
-# 	;
+ProgramFile
+	: PackageStatement ImportStatements TypeDeclarations
+	| PackageStatement ImportStatements
+	| PackageStatement                  TypeDeclarations
+	|                  ImportStatements TypeDeclarations
+	| PackageStatement
+	|                  ImportStatements
+	|                                   TypeDeclarations
+	;
 
-# ClassNameList
-#         : QualifiedName
-#         | ClassNameList ',' QualifiedName
-# 	;
+PackageStatement
+	: PACKAGE QualifiedName SemiColons
+	;
 
-# PrimitiveType
-# 	: BOOLEAN
-# 	| CHAR
-# 	| BYTE
-# 	| SHORT
-# 	| INT
-# 	| LONG
-# 	| FLOAT
-# 	| DOUBLE
-# 	| VOID
-# 	;
+TypeDeclarations
+	: TypeDeclarationOptSemi
+	| TypeDeclarations TypeDeclarationOptSemi
+	;
 
-# SemiColons
-# 	: ';'
-#         | SemiColons ';'
-#         ;
+TypeDeclarationOptSemi
+        : TypeDeclaration
+        | TypeDeclaration SemiColons
+        ;
 
-# CompilationUnit
-# 	: ProgramFile
-#         ;
+ImportStatements
+	: ImportStatement
+	| ImportStatements ImportStatement
+	;
 
-# ProgramFile
-# 	: PackageStatement ImportStatements TypeDeclarations
-# 	| PackageStatement ImportStatements
-# 	| PackageStatement                  TypeDeclarations
-# 	|                  ImportStatements TypeDeclarations
-# 	| PackageStatement
-# 	|                  ImportStatements
-# 	|                                   TypeDeclarations
-# 	;
+ImportStatement
+	: IMPORT QualifiedName SemiColons
+	| IMPORT QualifiedName '.' '*' SemiColons
+	;
 
-# PackageStatement
-# 	: PACKAGE QualifiedName SemiColons
-# 	;
+QualifiedName
+	: IDENTIFIER
+	| QualifiedName '.' IDENTIFIER
+	;
 
-# TypeDeclarations
-# 	: TypeDeclarationOptSemi
-# 	| TypeDeclarations TypeDeclarationOptSemi
-# 	;
+TypeDeclaration
+	: ClassHeader '{' FieldDeclarations '}'
+	| ClassHeader '{' '}'
+	;
 
-# TypeDeclarationOptSemi
-#         : TypeDeclaration
-#         | TypeDeclaration SemiColons
-#         ;
+ClassHeader
+	: Modifiers ClassWord IDENTIFIER Extends Interfaces
+	| Modifiers ClassWord IDENTIFIER Extends
+	| Modifiers ClassWord IDENTIFIER       Interfaces
+	|           ClassWord IDENTIFIER Extends Interfaces
+	| Modifiers ClassWord IDENTIFIER
+	|           ClassWord IDENTIFIER Extends
+	|           ClassWord IDENTIFIER       Interfaces
+	|           ClassWord IDENTIFIER
+	;
 
-# ImportStatements
-# 	: ImportStatement
-# 	| ImportStatements ImportStatement
-# 	;
+Modifiers
+	: Modifier
+	| Modifiers Modifier
+	;
 
-# ImportStatement
-# 	: IMPORT QualifiedName SemiColons
-# 	| IMPORT QualifiedName '.' '*' SemiColons
-# 	;
+Modifier
+	: ABSTRACT
+	| FINAL
+	| PUBLIC
+	| PROTECTED
+	| PRIVATE
+	| STATIC
+	| TRANSIENT
+	| VOLATILE
+	| NATIVE
+	| SYNCHRONIZED
+	;
 
-# QualifiedName
-# 	: IDENTIFIER
-# 	| QualifiedName '.' IDENTIFIER
-# 	;
+ClassWord
+	: CLASS
+	| INTERFACE
+	;
 
-# TypeDeclaration
-# 	: ClassHeader '{' FieldDeclarations '}'
-# 	| ClassHeader '{' '}'
-# 	;
+Interfaces
+	: IMPLEMENTS ClassNameList
+	;
 
-# ClassHeader
-# 	: Modifiers ClassWord IDENTIFIER Extends Interfaces
-# 	| Modifiers ClassWord IDENTIFIER Extends
-# 	| Modifiers ClassWord IDENTIFIER       Interfaces
-# 	|           ClassWord IDENTIFIER Extends Interfaces
-# 	| Modifiers ClassWord IDENTIFIER
-# 	|           ClassWord IDENTIFIER Extends
-# 	|           ClassWord IDENTIFIER       Interfaces
-# 	|           ClassWord IDENTIFIER
-# 	;
+FieldDeclarations
+	: FieldDeclarationOptSemi
+        | FieldDeclarations FieldDeclarationOptSemi
+	;
 
-# Modifiers
-# 	: Modifier
-# 	| Modifiers Modifier
-# 	;
+FieldDeclarationOptSemi
+        : FieldDeclaration
+        | FieldDeclaration SemiColons
+        ;
 
-def p_Modifiers(p):
-	''' Modifiers : Modifier
-					| Modifiers Modifier '''
-# Modifier
-# 	: ABSTRACT
-# 	| FINAL
-# 	| PUBLIC
-# 	| PROTECTED
-	# | PRIVATE
-	# | STATIC
-	# | TRANSIENT
-	# | VOLATILE
-	# | NATIVE
-	# | SYNCHRONIZED
-# 	;
+FieldDeclaration
+	: FieldVariableDeclaration ';'
+	| MethodDeclaration
+	| ConstructorDeclaration
+	| StaticInitializer
+        | NonStaticInitializer
+        | TypeDeclaration
+	;
 
-def p_Modifier(p):
-	''' Modifier : ABSTRACT
-					| FINAL
-					| PUBLIC
-					|PROTECTED
-					| PRIVATE
-					| STATIC
-					| TRANSIENT
-					| VOLATILE
-					| NATIVE
-					| SYNCHRONIZED '''
-
-# ClassWord
-# 	: CLASS
-# 	| INTERFACE
-# 	;
-
-def p_ClassWord(p):
-	''' ClassWord : CLASS
-					| INTERFACE '''
-
-# Interfaces
-# 	: IMPLEMENTS ClassNameList
-# 	;
-
-def p_Interfaces(p):
-	''' Interfaces : IMPLEMENTS ClassNameList '''
-
-# FieldDeclarations
-# 	: FieldDeclarationOptSemi
-#         | FieldDeclarations FieldDeclarationOptSemi
-
-def p_FieldDeclarations(p) :
-	'''FieldDeclarations : FieldDeclarationOptSemi
-        | FieldDeclarations FieldDeclarationOptSemi'''
-
-# FieldDeclarationOptSemi
-#         : FieldDeclaration
-#         | FieldDeclaration SemiColons
-
-def p_FieldDeclarationOptSemi(p):
-	''' FieldDeclarationOptSemi : FieldDeclaration
-        | FieldDeclaration SemiColons '''
-
-
-# FieldDeclaration
-# 	: FieldVariableDeclaration ';'
-# 	| MethodDeclaration
-# 	| ConstructorDeclaration
-# 	| StaticInitializer
-#         | NonStaticInitializer
-#         | TypeDeclaration
-
-def p_FieldDeclaration(p):
-	''' FieldDeclaration : FieldVariableDeclaration ';'
-						| MethodDeclaration
-						| ConstructorDeclaration
-						| StaticInitializer
-					    | NonStaticInitializer
-					    | TypeDeclaration '''
-
-# FieldVariableDeclaration
-# 	: Modifiers TypeSpecifier VariableDeclarators
-# 	|           TypeSpecifier VariableDeclarators
-def p_FieldVariableDeclaration(p):
-	''' FieldVariableDeclaration : Modifiers TypeSpecifier VariableDeclarators
-	|           TypeSpecifier VariableDeclarators '''
+FieldVariableDeclaration
+	: Modifiers TypeSpecifier VariableDeclarators
+	|           TypeSpecifier VariableDeclarators
+	;
 
 VariableDeclarators
 	: VariableDeclarator
@@ -621,17 +575,3 @@ Expression
 ConstantExpression
 	: ConditionalExpression
 	;
-
-	
-#---------------------------------------------------------------------------------------------------------
-#Parser
-parser = yacc.yacc()
-
-while True:
-   try:
-       s = raw_input('Input:')
-   except EOFError:
-       break
-   if not s: continue
-   result = parser.parse(s)
-   print result
