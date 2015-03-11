@@ -74,6 +74,7 @@ reserved = {
 
 
 seperator = {
+  ':' : 'COLON'
   ';' : 'SEMICOLON',
   ',' : 'COMMA' ,
   '.' : 'DOT' ,

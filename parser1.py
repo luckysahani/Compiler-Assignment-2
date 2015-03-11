@@ -1,19 +1,36 @@
+#!/usr/bin/env python
 
+import ply.yacc as yacc
 
+from lexer import tokens
 # TypeSpecifier
 # 	: TypeName
 # 	| TypeName Dims
 # 	;
+
+def p_TypeSpecifier(p):
+	''' TypeSpecifier : TypeName
+						| TypeName Dims '''
+
 
 # TypeName
 # 	: PrimitiveType
 # 	| QualifiedName
 # 	;
 
+def p_TypeName(p):
+	''' TypeName : PrimitiveType
+	| TypeName Dims '''
+
+
 # ClassNameList
 #         : QualifiedName
 #         | ClassNameList ',' QualifiedName
 # 	;
+
+def p_ClassNameList(p):
+	''' ClassNameList : QualifiedName
+	| ClassNameList 'COMMA' QualifiedName '''
 
 # PrimitiveType
 # 	: BOOLEAN
@@ -26,6 +43,17 @@
 # 	| DOUBLE
 # 	| VOID
 # 	;
+
+def p_PrimitiveType(p):
+	''' PrimitiveType : BOOLEAN_CONST
+	| CHAR_CONST
+	| BYTE
+	| SHORT
+	| INT_CONST
+	| LONG
+	| FLOAT_CONST
+	| DOUBLE
+	| VOID '''
 
 # SemiColons
 # 	: ';'
@@ -108,6 +136,12 @@
 # 	| NATIVE
 # 	| SYNCHRONIZED
 # 	;
+
+
+
+
+
+
 
 # ClassWord
 # 	: CLASS
