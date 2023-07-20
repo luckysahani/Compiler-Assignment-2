@@ -1,4 +1,4 @@
-Compiler
+Compiler 
 =========================
 
 We will build a cross compiler with the source language as Java, Target Language as MIPS and implementation language as Python.
@@ -16,4 +16,4 @@ Then from the above, we have made a parser and the output is a parse tree of the
 
 
 ===============================================
-I TAKE NO GUARENTEE IF ANYONE COPIES THIS CODE ... THIS CODE IS FOR INFORMATION PURPOSE ONLY....
+I TAKE NO GUARENTEE IF ANYONE COPIES THIS CODE GG ... THIS CODE IS FOR INFORMATION PURPOSE ONLY....
